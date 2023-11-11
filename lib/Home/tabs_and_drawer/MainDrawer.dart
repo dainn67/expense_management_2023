@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -40,7 +41,7 @@ class MainDrawer extends StatelessWidget {
           ListTile(
             title: const Text('Log out'),
             onTap: () {
-              // Handle item 2 click
+              FirebaseAuth.instance.signOut();
             },
           ),
         ],

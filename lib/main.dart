@@ -1,17 +1,23 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:learnflutterapp/Authentication/AuthPage.dart';
 import 'package:learnflutterapp/Home/HomeScreen.dart';
+import 'package:learnflutterapp/firebase_options.dart';
 import 'package:learnflutterapp/provider/DataProvider.dart';
 import 'package:learnflutterapp/provider/RecordsProvider.dart';
 import 'package:provider/provider.dart';
-import 'Authentication/LoginBody.dart';
-import 'Authentication/SignupBody.dart';
 
-void main() {
-  runApp(const LoginApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(const MyApp());
 }
 
-class LoginApp extends StatelessWidget {
-  const LoginApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -19,46 +25,10 @@ class LoginApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RecordsProvider()),
         ChangeNotifierProvider(create: (context) => DataProvider())
       ],
-      child: MaterialApp(
-        home: LoginScreen(),
+      child: const MaterialApp(
+        home: AuthPage(),
         // home: HomeScreen(),
       ),
     );
-  }
-}
-
-class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  int screenId = 1;
-
-  void update() {
-    setState(() {
-      screenId = screenId == 1 ? 2 : 1;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.lightBlueAccent,
-        body: Column(
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-            SizedBox(
-              width: 250,
-              height:250,
-              child: Image.asset('assets/demo_logo2.png'),
-            ),
-            const Text("Finance Management", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white)),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-            Expanded(child: screenId == 1 ? LoginBody(updateCallback: update,) : SignupBody(updateCallback: update)),
-          ],
-        ));
   }
 }

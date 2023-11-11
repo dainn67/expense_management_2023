@@ -18,7 +18,7 @@ class _SignupBodyState extends State<SignupBody> {
   final FocusNode passwordNode = FocusNode();
   final FocusNode cfPasswordNode = FocusNode();
 
-  void _login() {
+  void _signup() {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
@@ -76,12 +76,13 @@ class _SignupBodyState extends State<SignupBody> {
             TextField(
               focusNode: usernameNode,
               controller: _usernameController,
+              style: const TextStyle(height: 1.5),
               onSubmitted: (_) {
                 usernameNode.unfocus();
                 FocusScope.of(context).requestFocus(passwordNode);
               },
               decoration: InputDecoration(
-                  labelText: 'Username',
+                  labelText: 'Email',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0)),
                   prefixIcon: const Icon(Icons.person_outline)),
@@ -90,6 +91,7 @@ class _SignupBodyState extends State<SignupBody> {
             TextField(
               focusNode: passwordNode,
               controller: _passwordController,
+              style: const TextStyle(height: 1.5),
               decoration: InputDecoration(
                 labelText: 'Password',
                 border:
@@ -101,7 +103,12 @@ class _SignupBodyState extends State<SignupBody> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
             TextField(
               focusNode: passwordNode,
-              controller: _passwordController,
+              controller: _cfPasswordController,
+              style: const TextStyle(height: 1.5),
+              onSubmitted: (_){
+                passwordNode.unfocus();
+
+              },
               decoration: InputDecoration(
                 labelText: 'Confirm password',
                 border:
@@ -113,7 +120,7 @@ class _SignupBodyState extends State<SignupBody> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
             ElevatedButton(
               style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))),
-              onPressed: _login,
+              onPressed: _signup,
               child: const Padding(padding: EdgeInsets.all(10.0), child: Text('Sign up', style: TextStyle(fontSize: 18),)),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),

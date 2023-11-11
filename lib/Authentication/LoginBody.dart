@@ -1,6 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../Home/HomeScreen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginBody extends StatefulWidget {
   final Function() updateCallback;
@@ -12,42 +12,41 @@ class LoginBody extends StatefulWidget {
 }
 
 class _LoginBodyState extends State<LoginBody> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final FocusNode usernameNode = FocusNode();
+  final FocusNode emailNode = FocusNode();
   final FocusNode passwordNode = FocusNode();
 
-  void _login() {
-    String username = _usernameController.text;
+  String? _emailError;
+  String? _passwordError;
+
+  void _login() async {
+    String email = _emailController.text;
     String password = _passwordController.text;
 
 
-    if (username == 'a' && password == '1') {
-      // Successful login, navigate to the home screen.
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+    showDialog(context: context, builder: (context){
+      return const Center(
+        child: CircularProgressIndicator(),
       );
-    } else {
-      // Invalid credentials, show an error message.
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Login Failed'),
-            content: const Text('Invalid username or password.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
+    });
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email, password: password);
+    } on FirebaseAuthException catch (e){
+      setState(() {
+        if(e.code == 'user-not-found') {
+          _emailError = "Incorrect email";
+        }else if(e.code == 'wrong-password'){
+          _passwordError = "Incorrect password";
+        }else{
+          _passwordError = "Incorrect email or password";
+        }
+      });
     }
+    Navigator.pop(context);
   }
 
   @override
@@ -74,14 +73,25 @@ class _LoginBodyState extends State<LoginBody> {
                               color: Colors.blue)))),
             ),
             TextField(
-              focusNode: usernameNode,
-              controller: _usernameController,
+              focusNode: emailNode,
+              controller: _emailController,
+              style: const TextStyle(height: 1.5),
+              onChanged: (value){
+                setState(() {
+                  if(value.isEmpty) {
+                    _emailError = "This field can not be empty";
+                  } else {
+                    _emailError = null;
+                  }
+                });
+              },
               onSubmitted: (_) {
-                usernameNode.unfocus();
+                emailNode.unfocus();
                 FocusScope.of(context).requestFocus(passwordNode);
               },
               decoration: InputDecoration(
-                  labelText: 'Username',
+                  labelText: 'Email',
+                  errorText: _emailError,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0)),
                   prefixIcon: const Icon(Icons.person_outline)),
@@ -90,8 +100,19 @@ class _LoginBodyState extends State<LoginBody> {
             TextField(
               focusNode: passwordNode,
               controller: _passwordController,
+              style: const TextStyle(height: 1.5),
+              onChanged: (value){
+                setState(() {
+                  if(value.isEmpty) {
+                    _passwordError = "This field can not be empty";
+                  } else {
+                    _passwordError = null;
+                  }
+                });
+              },
               decoration: InputDecoration(
                 labelText: 'Password',
+                errorText: _passwordError,
                 border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
                 prefixIcon: const Icon(Icons.lock_outline),
