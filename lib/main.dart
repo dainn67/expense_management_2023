@@ -20,8 +20,8 @@ class LoginApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => DataProvider())
       ],
       child: MaterialApp(
-        home: LoginScreen(),
-        // home: HomeScreen(),
+        // home: LoginScreen(),
+        home: HomeScreen(),
       ),
     );
   }

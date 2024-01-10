@@ -25,12 +25,18 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
+            leading: const Icon(
+              Icons.settings
+            ),
             title: const Text('Setting'),
             onTap: () {
               // Handle item 1 click
             },
           ),
           ListTile(
+            leading: const Icon(
+              Icons.language
+            ),
             title: const Text('Language'),
             onTap: () {
               // Handle item 1 click
@@ -38,6 +44,18 @@ class MainDrawer extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
+            leading: const Icon(
+              Icons.info_outline
+            ),
+            title: const Text('About us'),
+            onTap: () {
+              // Handle item 2 click
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+                Icons.logout
+            ),
             title: const Text('Log out'),
             onTap: () {
               // Handle item 2 click

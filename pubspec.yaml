@@ -19,6 +19,7 @@ dependencies:
   percent_indicator: ^4.2.3
   provider: ^6.1.0
   fluttertoast: ^8.2.3
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -26,11 +27,32 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
 
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/budget.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "path/to/image.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "path/to/image.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "path/to/image.png"
+
 flutter:
 
   uses-material-design: true
 
   assets:
+    - assets/budget.png
     - assets/demo_logo1.jpg
     - assets/demo_logo2.png
     - assets/demo_logo3.jpg

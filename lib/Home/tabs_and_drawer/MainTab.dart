@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:learnflutterapp/Home/RecordTile.dart';
+import 'package:learnflutterapp/Home/tiles/RecordTile.dart';
 import 'package:learnflutterapp/Home/charts/BarGraph.dart';
 import 'package:learnflutterapp/provider/RecordsProvider.dart';
 import 'package:provider/provider.dart';
