@@ -19,7 +19,12 @@ dependencies:
   percent_indicator: ^4.2.3
   provider: ^6.1.0
   fluttertoast: ^8.2.3
+  dots_indicator:
+  flutter_screenutil:
   intl: ^0.17.0
+  flutter_bloc: ^8.1.3
+  firebase_auth: ^4.16.0
+  firebase_core: ^2.24.2
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +57,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/
     - assets/budget.png
     - assets/demo_logo1.jpg
     - assets/demo_logo2.png

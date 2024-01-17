@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1001821187803",
+    "project_id": "expensemanagerbloc",
+    "storage_bucket": "expensemanagerbloc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001821187803:android:dd9cb4af2f331de03326fe",
+        "android_client_info": {
+          "package_name": "com.example.learnflutterapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv_wKUYZzUONgtdH_4EDELcx3SGcikOB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
