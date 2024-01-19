@@ -77,7 +77,7 @@ class _SignUpState extends State<SignUp> {
                         Row(
                           children: [
                             reusableText(
-                                "By signing up for a new account, you have agreed with our terms & conditions.")
+                                "By signing up for a new account, you have\nagreed with our terms & conditions.")
                           ],
                         ),
                         buildButton("Register", "signup", () {

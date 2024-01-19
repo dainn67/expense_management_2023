@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:learnflutterapp/common/widgets/CommonWidgets.dart';
+import 'package:learnflutterapp/models/ExpenseRecord.dart';
+import 'package:learnflutterapp/ui/home/application_widgets/ApplicationWidgets.dart';
 import '../charts/BarGraph.dart';
+import '../tiles/RecordTile.dart';
 
 class MainTab extends StatefulWidget {
   MainTab({super.key});
@@ -10,25 +14,52 @@ class MainTab extends StatefulWidget {
 
 class _MainTabState extends State<MainTab> {
   List<double> dataList = [60, 40, 80];
+  int recentAmount = 5;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [ 
-            const Text("This month", style: TextStyle(fontSize: 18)),
-            const SizedBox(height: 10),
-            const Text("1.234.567 vnd", style: TextStyle(fontSize: 25)),
-            const SizedBox(height: 30),
-            MainTabBarChart(dataList: dataList),
-            const SizedBox(height: 30),
-            const Text("Recent expenses", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            const RecentList()
-          ],
-        ),
+      child: Column(
+        children: [
+          contentBox(
+              20,
+              15,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("This month",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold)),
+                      Text(getDisplayCurrency(12345678),
+                          style: const TextStyle(fontSize: 25)),
+                    ],
+                  ),
+                  Container(
+                      margin: const EdgeInsets.only(top: 20.0),
+                      padding: const EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0)),
+                      child: MainTabBarChart(dataList: dataList)),
+                ],
+              )),
+          contentBox(
+              20,
+              15,
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                const Text("Recent expenses",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold)),
+                RecentList(amount: recentAmount)
+              ]))
+        ],
       ),
     );
   }
@@ -52,27 +83,36 @@ class MainTabBarChart extends StatelessWidget {
 }
 
 class RecentList extends StatelessWidget {
-  const RecentList({super.key});
+  final int amount;
+
+  const RecentList({super.key, required this.amount});
 
   @override
   Widget build(BuildContext context) {
-    // final listData = Provider.of<RecordsProvider>(context);
-    // final list = listData.list;
+    List<ExpenseRecord> records = [
+      ExpenseRecord("Train ticket", "BANK", -50000, DateTime.now()),
+      ExpenseRecord("Meatball", "WALLET", -20000,
+          DateTime.now().add(const Duration(minutes: 3))),
+      ExpenseRecord("Coriander", "BANK", -10000,
+          DateTime.now().add(const Duration(minutes: 10))),
+      ExpenseRecord("Movie ticket", "BANK", -50000,
+          DateTime.now().add(const Duration(minutes: 15))),
+      ExpenseRecord("New iPhone", "WALLET", -6000000,
+          DateTime.now().add(const Duration(minutes: 21))),
+    ];
 
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.4,
       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
       child: ListView.builder(
-          itemCount: 5,
+        physics: const NeverScrollableScrollPhysics(),
+          itemCount: records.length,
           itemBuilder: (context, id) {
-            // return RecordTile(
-            //   record: list[id],
-            // );
-            return Text("DRAFT");
+            return RecordTile(
+              record: records[id],
+            );
           }),
     );
   }
 }
-
-

@@ -24,7 +24,7 @@ AppBar buildAppBar(String title) {
   );
 }
 
-String getDisplayCurrency(double money){
+String getDisplayCurrency(double money) {
   final formatter = NumberFormat.currency(
     locale: "vi_VN",
     symbol: '₫',
@@ -35,14 +35,19 @@ String getDisplayCurrency(double money){
 Widget reusableText(String text) {
   return Container(
     margin: EdgeInsets.only(bottom: 5.h),
-    child: Text(
-      text,
-      maxLines: 2,
-      style: TextStyle(
-          color: Colors.grey.withOpacity(0.8),
-          fontWeight: FontWeight.normal,
-          fontSize: 14.sp)),
+    child: Expanded(
+      child: Text(text,
+          style: TextStyle(
+              color: Colors.grey.withOpacity(0.8),
+              fontWeight: FontWeight.normal,
+              fontSize: 14.sp)),
+    ),
   );
+}
+
+String getDisplayMonthAndYear(DateTime date) {
+  final formatter = DateFormat('MMM, yyyy');
+  return formatter.format(date);
 }
 
 Widget buildTextField(String hint, String type, String imgPath,
@@ -73,10 +78,9 @@ Widget buildTextField(String hint, String type, String imgPath,
             decoration: InputDecoration(
                 hintText: hint,
                 hintStyle: const TextStyle(color: Colors.grey),
-                border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent)),
                 enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent))),
+                    borderSide: BorderSide(color: Colors.transparent))
+            ),
           ),
         )
       ],
@@ -90,7 +94,9 @@ Widget buildButton(String name, String type, void Function()? func) {
     child: ElevatedButton(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(
-            type != 'signin' ? Colors.white : Colors.lightBlueAccent),
+            type == 'signin' || type == 'signup'
+                ? Colors.lightBlueAccent
+                : Colors.white),
         shape: MaterialStateProperty.all<OutlinedBorder>(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.w)),
         ),
@@ -104,7 +110,9 @@ Widget buildButton(String name, String type, void Function()? func) {
             style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
-                color: type != "signin" ? Colors.grey : Colors.black),
+                color: type == 'signin' || type == 'signup'
+                    ? Colors.white
+                    : Colors.grey),
           ),
         ),
       ),

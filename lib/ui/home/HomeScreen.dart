@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:learnflutterapp/ui/home/HomeController.dart';
+import 'package:learnflutterapp/ui/home/application_widgets/ApplicationWidgets.dart';
 import 'package:learnflutterapp/ui/home/bloc/MainBlocs.dart';
 import 'package:learnflutterapp/ui/home/bloc/MainEvent.dart';
 import 'package:learnflutterapp/ui/home/bloc/MainState.dart';
+import 'package:learnflutterapp/ui/home/bottom_sheet/CustomBottomSheet.dart';
 import 'package:learnflutterapp/ui/home/tabs_and_drawer/MainDrawer.dart';
-import 'package:learnflutterapp/ui/home/tabs_and_drawer/MainTab.dart';
-import 'package:learnflutterapp/ui/home/tabs_and_drawer/StatisticTab.dart';
-import 'package:learnflutterapp/ui/home/tabs_and_drawer/ViewRecordsTab.dart';
-import 'package:learnflutterapp/ui/home/tabs_and_drawer/plan/PlanTab.dart';
 
 import 'GeneralSection.dart';
 
@@ -23,6 +23,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  int pageIndex = 0;
+  bool isDropdown = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,79 +43,94 @@ class _HomeScreenState extends State<HomeScreen>
       ),
       body: BlocBuilder<AppBloc, AppState>(
         builder: (context, state) {
-          return DefaultTabController(
-            length: 4,
-            child: Column(
-              children: [
-                GeneralTab(
-                    balance: state.balance,
-                    walletBalance: state.walletBalance,
-                    bankBalance: state.bankBalance,
-                    stockBalance: state.stockBalance),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      featureButton("New source", const Icon(Icons.source)),
-                      featureButton("Upload date", const Icon(Icons.cloud_upload)),
-                      featureButton("Reset", const Icon(Icons.delete)),
-                      featureButton("Coming soon", const Icon(Icons.refresh)),
-                    ]),
-                const TabBar(
-                  tabs: [
-                    Tab(icon: Icon(Icons.home_outlined, color: Colors.grey)),
-                    Tab(icon: Icon(Icons.library_books, color: Colors.grey)),
-                    Tab(icon: Icon(Icons.list, color: Colors.grey)),
-                    Tab(icon: Icon(Icons.savings_outlined, color: Colors.grey))
-                  ],
-                ),
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      MainTab(),
-                      const ViewRecordsTab(),
-                      const StatisticTab(),
-                      const PlanTab()
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          return Column(
+            children: [
+              //General, balance, source tabs and feature buttons
+              GeneralSection(
+                  balance: state.balance,
+                  walletBalance: state.walletBalance,
+                  bankBalance: state.bankBalance,
+                  stockBalance: state.stockBalance),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                featureButton("New source", const Icon(Icons.source),
+                    Colors.lightBlueAccent, () {}),
+                featureButton("Upload", const Icon(Icons.cloud_upload),
+                    Colors.lightBlueAccent, () {}),
+                featureButton("Reset", const Icon(Icons.delete),
+                    Colors.lightBlueAccent, () {}),
+                featureButton("New record", const Icon(Icons.add), Colors.red,
+                    () {
+                  HomeController(context: context).handleOpenBottomSheet();
+                }),
+              ]),
+              customDivider(),
+
+              //Contents and Tabs below
+              Expanded(
+                child: Scaffold(
+                    //Navigation bar
+                    bottomNavigationBar: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25.0),
+                        color: Colors.grey.withOpacity(0.2),
+                      ),
+                      padding: const EdgeInsets.all(10.0),
+                      child: GNav(
+                          onTabChange: (id) {
+                            setState(() {
+                              pageIndex = id;
+                            });
+                          },
+                          activeColor: Colors.white,
+                          color: Colors.grey,
+                          tabBackgroundColor: Colors.lightBlueAccent,
+                          padding: const EdgeInsets.all(16),
+                          tabs: const [
+                            GButton(icon: Icons.home, text: "Home", gap: 8),
+                            GButton(
+                                icon: Icons.library_books,
+                                text: "Current month",
+                                gap: 8),
+                            GButton(
+                                icon: Icons.list, text: "Statistic", gap: 8),
+                            GButton(
+                                icon: Icons.savings_outlined,
+                                text: "Plans",
+                                gap: 8)
+                          ]),
+                    ),
+
+                    //body
+                    body: buildPage(pageIndex)),
+              )
+            ],
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // context.read<BalanceBLoC>().add(IncrementEvent());
-            // showModalBottomSheet(
-            //     context: context,
-            //     isScrollControlled: true,
-            //     shape: const RoundedRectangleBorder(
-            //         borderRadius:
-            //             BorderRadius.vertical(top: Radius.circular(20.0))),
-            //     builder: (context) => const CustomBottomSheet());
-            context.read<AppBloc>().add(IncrementBalanceEvent());
-          },
-          child: const Icon(Icons.add)),
     );
   }
 
-  Widget featureButton(String title, Icon icon) {
+  Widget featureButton(
+      String title, Icon icon, Color color, dynamic Function() func) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.2,
-      height: MediaQuery.of(context).size.width * 0.2,
+      height: MediaQuery.of(context).size.width * 0.22,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-              width: MediaQuery.of(context).size.width * 0.128,
-              height: MediaQuery.of(context).size.height * 0.065,
+              width: MediaQuery.of(context).size.width * 0.15,
+              height: MediaQuery.of(context).size.width * 0.15,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  func();
+                },
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightBlueAccent,
+                    backgroundColor: color,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0))),
-                child: icon,
+                child: Center(child: icon),
               )),
           Padding(
               padding: const EdgeInsets.only(top: 8.0),
