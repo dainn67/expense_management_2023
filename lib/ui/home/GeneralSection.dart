@@ -96,9 +96,10 @@ class _GeneralSectionState extends State<GeneralSection> {
                 ),
               ),
             ),
-          SizedBox(
-            width: 200,
-            height: 30,
+          Container(
+            margin: const EdgeInsets.only(top: 8),
+              width: 200,
+              height: 30,
             child: ElevatedButton(
               onPressed: () {
                 setState(() {
@@ -106,10 +107,10 @@ class _GeneralSectionState extends State<GeneralSection> {
                 });
               },
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.greenAccent,
+                  backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12))),
-              child: Text(isDropdown ? 'Hide sources' : 'View sources'),
+              child: Text(isDropdown ? 'Hide sources' : 'View sources', style: const TextStyle(color: Colors.grey)),
             ),
           ),
         ],

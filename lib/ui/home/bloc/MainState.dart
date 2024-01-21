@@ -1,4 +1,4 @@
-import 'package:learnflutterapp/models/ExpenseRecord.dart';
+import '../../../data/models/ExpenseRecord.dart';
 
 class AppState {
   double balance;

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:learnflutterapp/common/widgets/CommonWidgets.dart';
-import 'package:learnflutterapp/models/ExpenseRecord.dart';
 import 'package:learnflutterapp/ui/home/application_widgets/ApplicationWidgets.dart';
 
+import '../../../data/models/ExpenseRecord.dart';
 import '../tiles/RecordTile.dart';
 
 class RecordsTab extends StatefulWidget {

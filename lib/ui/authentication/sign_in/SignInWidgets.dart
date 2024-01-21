@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget buildThirdPartyLogin(BuildContext context) {
   return Container(
-    margin: EdgeInsets.only(top: 40.h, bottom: 20.h),
+    margin: EdgeInsets.only(bottom: 20.h),
     padding: EdgeInsets.only(left: 36.w, right: 36.w),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,

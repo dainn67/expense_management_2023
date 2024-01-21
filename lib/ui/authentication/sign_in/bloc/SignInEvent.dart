@@ -2,12 +2,21 @@ abstract class SignInEvent {
   SignInEvent();
 }
 
-class EmailEvent extends SignInEvent{
+class SignInEmailEvent extends SignInEvent {
   final String email;
-  EmailEvent(this.email);
+  final String? inputError;
+
+  SignInEmailEvent(this.email, this.inputError);
 }
 
-class PasswordEvent extends SignInEvent{
+class PasswordEvent extends SignInEvent {
   final String password;
+
   PasswordEvent(this.password);
+}
+
+class PasswordErrorEvent extends SignInEvent {
+  final String error;
+
+  PasswordErrorEvent(this.error);
 }

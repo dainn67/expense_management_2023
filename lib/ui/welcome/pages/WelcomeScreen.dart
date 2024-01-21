@@ -1,14 +1,12 @@
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:learnflutterapp/common/constants/Constants.dart';
-import 'package:learnflutterapp/ui/authentication/sign_in/SignIn.dart';
-import 'package:learnflutterapp/ui/home/HomeScreen.dart';
 import 'package:learnflutterapp/ui/welcome/bloc/WelcomEvent.dart';
 import 'package:learnflutterapp/ui/welcome/bloc/WelcomeBloc.dart';
 
+import '../../../Global.dart';
+import '../../../common/constants/Constants.dart';
 import '../bloc/WelcomeState.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -117,6 +115,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   curve: Curves.decelerate);
             } else {
               Navigator.of(context).pushNamedAndRemoveUntil(Constants.SIGN_IN_ROUTE, (route) => false);
+              Global.storageService.setBool(Constants.DEVICE_ALREADY_OPEN_BEFORE, true);
             }
           },
           child: Container(

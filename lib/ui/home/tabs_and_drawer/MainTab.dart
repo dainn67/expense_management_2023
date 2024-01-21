@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learnflutterapp/common/widgets/CommonWidgets.dart';
-import 'package:learnflutterapp/models/ExpenseRecord.dart';
 import 'package:learnflutterapp/ui/home/application_widgets/ApplicationWidgets.dart';
+import '../../../data/models/ExpenseRecord.dart';
 import '../charts/BarGraph.dart';
 import '../tiles/RecordTile.dart';
 
@@ -106,7 +106,7 @@ class RecentList extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.4,
       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
       child: ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: records.length,
           itemBuilder: (context, id) {
             return RecordTile(

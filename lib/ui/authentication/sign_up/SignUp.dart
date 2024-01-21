@@ -42,38 +42,24 @@ class _SignUpState extends State<SignUp> {
                           padding: EdgeInsets.only(left: 10.w),
                           child: reusableText("Username"),
                         ),
-                        buildTextField("Enter your username", "username",
-                            "assets/user.png", (value) {
-                          context
-                              .read<RegisterBloc>()
-                              .add(UsernameEvent(value));
-                        }),
+                        buildTextField(context, "Enter your username",
+                            "username", "assets/user.png", null),
                         Padding(
                           padding: EdgeInsets.only(left: 10.w),
                           child: reusableText("Email"),
                         ),
-                        buildTextField("Enter your email address", "email",
-                            "assets/email.png", (value) {
-                          context.read<RegisterBloc>().add(EmailEvent(value));
-                        }),
+                        buildTextField(context, "Enter your email address",
+                            "email", "assets/email.png", null),
                         Padding(
                             padding: EdgeInsets.only(left: 10.w),
                             child: reusableText("Password")),
-                        buildTextField("Enter your password", "password",
-                            "assets/lock.png", (value) {
-                          context
-                              .read<RegisterBloc>()
-                              .add(PasswordEvent(value));
-                        }),
+                        buildTextField(context, "Enter your password",
+                            "password", "assets/lock.png", null),
                         Padding(
                             padding: EdgeInsets.only(left: 10.w),
                             child: reusableText("Confirm password")),
-                        buildTextField("Confirm your password",
-                            "confirm_password", "assets/check.png", (value) {
-                          context
-                              .read<RegisterBloc>()
-                              .add(ConfirmPasswordEvent(value));
-                        }),
+                        buildTextField(context, "Confirm your password",
+                            "confirm_password", "assets/check.png", null),
                         Row(
                           children: [
                             reusableText(

@@ -5,9 +5,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:learnflutterapp/ui/home/HomeController.dart';
 import 'package:learnflutterapp/ui/home/application_widgets/ApplicationWidgets.dart';
 import 'package:learnflutterapp/ui/home/bloc/MainBlocs.dart';
-import 'package:learnflutterapp/ui/home/bloc/MainEvent.dart';
 import 'package:learnflutterapp/ui/home/bloc/MainState.dart';
-import 'package:learnflutterapp/ui/home/bottom_sheet/CustomBottomSheet.dart';
 import 'package:learnflutterapp/ui/home/tabs_and_drawer/MainDrawer.dart';
 
 import 'GeneralSection.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'bottom_sheet/CustomBottomSheet.dart';
+import '../bottom_sheet/CustomBottomSheet.dart';
 
 class HomeController{
   BuildContext context;
@@ -13,6 +13,6 @@ class HomeController{
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
                 top: Radius.circular(20.0))),
-        builder: (context) => const CustomBottomSheet());
+        builder: (context) => CustomBottomSheet());
   }
 }

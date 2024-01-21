@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learnflutterapp/common/widgets/CommonWidgets.dart';
 
 class NewExpense extends StatelessWidget {
   const NewExpense({super.key});
@@ -14,7 +15,9 @@ class NewExpense extends StatelessWidget {
             SizedBox(
               height: 60,
               child: ListTile(
-                onTap: (){},
+                onTap: () {
+                  openCustomDialog(context, 'Select source', 'category');
+                },
                 leading: const Icon(Icons.source_outlined),
                 title: const Text("Source"),
                 trailing: const Icon(Icons.chevron_right),
@@ -23,7 +26,7 @@ class NewExpense extends StatelessWidget {
             SizedBox(
               height: 60,
               child: ListTile(
-                onTap: (){},
+                onTap: () {},
                 leading: const Icon(Icons.category_outlined),
                 title: const Text("Category"),
                 trailing: const Icon(Icons.chevron_right),
@@ -32,7 +35,7 @@ class NewExpense extends StatelessWidget {
             SizedBox(
               height: 60,
               child: ListTile(
-                onTap: (){},
+                onTap: () {},
                 leading: const Icon(Icons.access_time_outlined),
                 title: const Text("Time"),
                 trailing: const Icon(Icons.chevron_right),
@@ -41,7 +44,7 @@ class NewExpense extends StatelessWidget {
             SizedBox(
               height: 60,
               child: ListTile(
-                onTap: (){},
+                onTap: () {},
                 leading: const Icon(Icons.note_alt_outlined),
                 title: const Text("Note"),
                 trailing: const Icon(Icons.chevron_right),
@@ -51,7 +54,7 @@ class NewExpense extends StatelessWidget {
             SizedBox(
               height: 60,
               child: ListTile(
-                onTap: (){},
+                onTap: () {},
                 leading: const Icon(Icons.cloud),
                 title: const Text("Coming soon"),
                 trailing: const Icon(Icons.chevron_right),
@@ -60,7 +63,7 @@ class NewExpense extends StatelessWidget {
             SizedBox(
               height: 60,
               child: ListTile(
-                onTap: (){},
+                onTap: () {},
                 leading: const Icon(Icons.cloud),
                 title: const Text("Coming soon"),
                 trailing: const Icon(Icons.chevron_right),
@@ -69,7 +72,7 @@ class NewExpense extends StatelessWidget {
             SizedBox(
               height: 60,
               child: ListTile(
-                onTap: (){},
+                onTap: () {},
                 leading: const Icon(Icons.cloud),
                 title: const Text("Coming soon"),
                 trailing: const Icon(Icons.chevron_right),

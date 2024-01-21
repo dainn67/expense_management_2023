@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
+import 'package:learnflutterapp/common/widgets/FlutterToast.dart';
+import 'package:learnflutterapp/data/models/Category.dart';
+import 'package:learnflutterapp/data/repository/DataRepo.dart';
+import 'package:learnflutterapp/ui/authentication/sign_in/bloc/SignInBloc.dart';
+import 'package:learnflutterapp/ui/authentication/sign_in/bloc/SignInEvent.dart';
+
+import '../../ui/home/tiles/SubCategoryTile.dart';
 
 AppBar buildAppBar(String title) {
   return AppBar(
@@ -50,8 +59,16 @@ String getDisplayMonthAndYear(DateTime date) {
   return formatter.format(date);
 }
 
-Widget buildTextField(String hint, String type, String imgPath,
-    void Function(String value)? func) {
+bool isEmailValid(String email) {
+  // Define a regular expression pattern for a simple email validation
+  RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
+
+  // Use the hasMatch method to check if the email matches the pattern
+  return emailRegex.hasMatch(email);
+}
+
+Widget buildTextField(BuildContext context, String hint, String type,
+    String imgPath, String? error) {
   return Container(
     margin: EdgeInsets.only(bottom: 20.h),
     width: 325.w,
@@ -73,14 +90,34 @@ Widget buildTextField(String hint, String type, String imgPath,
           width: 270.w,
           padding: EdgeInsets.only(right: 10.w),
           child: TextField(
-            onChanged: (value) => func!(value),
+            onChanged: (value) {
+              var notifier = context.read<SignInBloc>();
+              switch (type) {
+                case 'emailSignIn': {
+                    String? message;
+                    if(value.isEmpty) message = 'Email must not be empty';
+                    else if (!isEmailValid(value)) message = 'Invalid email format';
+
+                    notifier.add(SignInEmailEvent(value, message));
+                    break;
+                  }
+                // case 'password': {
+                //     if (!isEmailValid(value)) {
+                //       context
+                //           .read<SignInBloc>()
+                //           .add(EmailErrorEvent('Invalid email format'));
+                //     }
+                //     break;
+                //   }
+              }
+            },
             obscureText: type == "password",
             decoration: InputDecoration(
+                errorText: error,
                 hintText: hint,
                 hintStyle: const TextStyle(color: Colors.grey),
                 enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent))
-            ),
+                    borderSide: BorderSide(color: Colors.transparent))),
           ),
         )
       ],
@@ -118,4 +155,47 @@ Widget buildButton(String name, String type, void Function()? func) {
       ),
     ),
   );
+}
+
+void openCustomDialog(BuildContext context, String title, String type) {
+  showGeneralDialog(
+      context: context,
+      pageBuilder: (context, animation1, animation2) {
+        return Container();
+      },
+      transitionBuilder: (context, a1, a2, widget) {
+        return ScaleTransition(
+          scale: Tween<double>(begin: 0.5, end: 1).animate(a1),
+          child: FadeTransition(
+            opacity: Tween<double>(begin: 0.5, end: 1).animate(a1),
+            child: AlertDialog(
+              title: Text(title),
+              content: Container(
+                  color: Colors.grey,
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: IntrinsicHeight(
+                    child: GroupedListView<SubCategory, int>(
+                      elements: DataRepo.subCategories,
+                      groupBy: (element) => element.type,
+                      groupSeparatorBuilder: (int type) {
+                        return Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10)),
+                          padding: const EdgeInsets.all(5),
+                          child: Text(DataRepo.categories
+                              .firstWhere((element) => element.id == type)
+                              .title),
+                        );
+                      },
+                      itemBuilder: (context, SubCategory subCategory) =>
+                          SubCategoryTile(subCategory: subCategory),
+                    ),
+                  )),
+              shape: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none),
+            ),
+          ),
+        );
+      });
 }
